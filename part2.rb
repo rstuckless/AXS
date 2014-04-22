@@ -38,8 +38,6 @@ if browser.div(:class => "column-secondary").exists?
     text = browser.link(:class => "btn-size-small", :index => j).text
     puts "Purchase button " + j.to_s + " for event " + event_id.to_s + ": " + text
     j += 1
-    end
   end
 end
-
 browser.close
