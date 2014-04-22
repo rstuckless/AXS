@@ -52,8 +52,8 @@ browser.text_field(:name => "q").set search
 #click follow this event link
 puts "following first event"
 browser.link(:title => "Click to follow").click
-#browser.list(:class => "results-column-follow").button(:index, 1).click
-
+puts "sleeping to allow followed link to propogate through system"
+sleep 2 
 #verify the event is listed on the page
 puts "checking if event was followed"
 browser.goto 'http://www.axs.com/me/alerts'
