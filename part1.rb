@@ -51,16 +51,21 @@ browser.text_field(:name => "q").set search
 
 #click follow this event link
 puts "following first event"
+followed_link = browser.link(:class => "headliner", :index => 1).text
+puts followed_link
 browser.link(:title => "Click to follow").click
 puts "sleeping to allow followed link to propogate through system"
 sleep 2 
 #verify the event is listed on the page
 puts "checking if event was followed"
 browser.goto 'http://www.axs.com/me/alerts'
-if browser.link(:class => "event-image").exists? 
+if browser.link(:class => "headliner").text == followed_link 
   puts "Event was successfully followed"
+  puts "TEST PASS"
+else
+  puts "Event was not successfully followed"
+  puts "TEST FAIL"
 end
 
 browser.close
 
-puts "TEST PASS"
