@@ -8,6 +8,7 @@ require 'set'
 class User
   $followed_events = Set.new
   def initialize(fname, lname, zip, email, password)
+    puts "creating pre-defined user object"
     @fname = fname
     @lname = lname
     @zip = zip
@@ -15,6 +16,7 @@ class User
     @password = password
   end
   def initialize()
+    puts "creating random user object"
     @fname= (0...8).map{(65+ rand(26)).chr}.join
     @lname= @fname 
     @zip= (0..4).map{rand(9)}.join
@@ -32,7 +34,7 @@ class User
     browser.link(:class => "myaxs-create-trigger omniture-my-axs").when_present.click
     puts "just clicked on create an account"
 
-    puts "creating a random account"
+    puts "creating a new account for the user"
 
     browser.text_field(:name => "axs_fname").set @fname 
     browser.text_field(:name => "axs_lname").set @lname 
@@ -48,7 +50,7 @@ class User
     browser.button(:class => "next-button").click
   end
   def global_search(browser, search_string)
-    puts "searching for #search_string"
+    puts "searching for " + search_string
     until browser.div(:id => "global-search-container").exists? do
       sleep 1
     end
@@ -66,7 +68,7 @@ class User
     i = 0
     while i<20 do
       while browser.link(:class => "headliner", :index => i).exists? do
-        puts browser.link(:class => "headliner").href
+        #puts browser.link(:class => "headliner").href
         if $followed_events.include?(browser.link(:class => "headliner").href) 
           puts "Event was successfully followed"
           return true;
@@ -89,7 +91,7 @@ user1 = User.new()
 user1.create_account(browser)
 
 #search for an event
-user1.global_search(browser, "sports")
+user1.global_search(browser, ARGV[0])
 
 #click follow this event link
 puts "navigating to first event"
@@ -107,4 +109,4 @@ else
   puts "TEST FAIL"
 end
 
-#browser.close
+browser.close
