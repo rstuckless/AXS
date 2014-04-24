@@ -56,7 +56,7 @@ class User
     browser.text_field(:name => "q").set search
   end
   def follow_event(browser)
-    followed_link = browser.link(:class => "headliner", :index => 1).text
+    followed_link = browser.url
     $followed_events.add(followed_link)
     puts "following " + followed_link
     browser.link(:title => "Click to follow").when_present.click
@@ -66,7 +66,8 @@ class User
     i = 0
     while i<20 do
       while browser.link(:class => "headliner", :index => i).exists? do
-        if @followed_events.include?(browser.link(:class => "headliner").text) 
+        puts browser.link(:class => "headliner").href
+        if $followed_events.include?(browser.link(:class => "headliner").href) 
           puts "Event was successfully followed"
           return true;
         else
@@ -106,4 +107,4 @@ else
   puts "TEST FAIL"
 end
 
-browser.close
+#browser.close
