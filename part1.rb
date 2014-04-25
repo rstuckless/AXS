@@ -6,7 +6,7 @@ require 'watir-webdriver'
 require 'set'
 
 class User
-  $followed_events = Set.new
+  @@followed_events = Set.new
   def initialize(fname, lname, zip, email, password)
     puts "creating pre-defined user object"
     @fname = fname
@@ -59,7 +59,7 @@ class User
   end
   def follow_event(browser)
     followed_link = browser.url
-    $followed_events.add(followed_link)
+    @@followed_events.add(followed_link)
     puts "following " + followed_link
     browser.link(:title => "Click to follow").when_present.click
   end
@@ -69,7 +69,7 @@ class User
     while i<20 do
       while browser.link(:class => "headliner", :index => i).exists? do
         #puts browser.link(:class => "headliner").href
-        if $followed_events.include?(browser.link(:class => "headliner").href) 
+        if @@followed_events.include?(browser.link(:class => "headliner").href) 
           puts "Event was successfully followed"
           return true;
         else
